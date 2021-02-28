@@ -6,6 +6,7 @@ tfd = tfp.distributions
 
 N = 500
 
+
 def plot(model, x, y, x_test):
     y_hat = model(x_test)
     plt.plot(x, y, 'kx')
@@ -105,4 +106,3 @@ def run(uncertainty=False):
 
 
 run(uncertainty=False)
-
