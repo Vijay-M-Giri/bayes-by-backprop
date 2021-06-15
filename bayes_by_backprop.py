@@ -72,9 +72,10 @@ def posterior(kernel_size, bias_size, dtype=None):
 
 
 def build_model():
+    activation = 'relu'
     model = tf.keras.Sequential([
-        tf.keras.layers.Dense(10, activation='relu'),
-        tf.keras.layers.Dense(10, activation='relu'),
+        tf.keras.layers.Dense(10, activation=activation),
+        tf.keras.layers.Dense(10, activation=activation),
         tf.keras.layers.Dense(1),
         tfp.layers.DistributionLambda(lambda t: tfd.Normal(loc=t, scale=1.))
     ])
@@ -85,15 +86,16 @@ def build_variational_model():
     """
     Variational model with KL re-weighting (See section 3.4)
     """
+    activation = 'relu'
     model = tf.keras.Sequential([
         tfp.layers.DenseVariational(
-            10, activation='relu', make_posterior_fn=posterior,
+            10, activation=activation, make_posterior_fn=posterior,
             make_prior_fn=prior, kl_weight=1/N, kl_use_exact=False),
         tfp.layers.DenseVariational(
-            10, activation='relu', make_posterior_fn=posterior,
+            10, activation=activation, make_posterior_fn=posterior,
             make_prior_fn=prior, kl_weight=1/N, kl_use_exact=False),
         tfp.layers.DenseVariational(
-            1, activation='relu', make_posterior_fn=posterior,
+            1, make_posterior_fn=posterior,
             make_prior_fn=prior, kl_weight=1/N, kl_use_exact=False),
         tfp.layers.DistributionLambda(lambda t: tfd.Normal(loc=t, scale=1.))
     ])
